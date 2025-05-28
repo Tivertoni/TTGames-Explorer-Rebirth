@@ -145,14 +145,21 @@ namespace TTGamesExplorerRebirthUI.Forms
 
             darkLabel1.Text = $"{_zoomVal}%";
 
-            pictureBox1.Image = PictureBoxZoom(_previewImage, new System.Drawing.Size(_previewHeight * _zoomVal / 100, _previewWidth * _zoomVal / 100));
+            pictureBox1.Image = PictureBoxZoom(_previewImage, new System.Drawing.Size(_previewWidth * _zoomVal / 100, _previewHeight * _zoomVal / 100));
         }
 
         public static System.Drawing.Image PictureBoxZoom(System.Drawing.Image img, System.Drawing.Size size)
         {
-            Bitmap bitmap = new(img, size.Width <= 0 ? 1 : size.Width, size.Height <= 0 ? 1 : size.Height);
+            int width = size.Width <= 0 ? 1 : size.Width;
+            int height = size.Height <= 0 ? 1 : size.Height;
 
-            Graphics.FromImage(bitmap).InterpolationMode = InterpolationMode.HighQualityBilinear;
+            Bitmap bitmap = new Bitmap(width, height);
+
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(img, 0, 0, width, height);
+            }
 
             return bitmap;
         }
