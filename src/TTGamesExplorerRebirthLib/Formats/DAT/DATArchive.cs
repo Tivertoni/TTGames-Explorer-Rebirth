@@ -253,7 +253,7 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
                 for (int i = 0; i < filesCount1; i++)
                 {
                     short  next = 1;
-                    string name = "";
+                    string name = string.Empty;
 
                     do
                     {
