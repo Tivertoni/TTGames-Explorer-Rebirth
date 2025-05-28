@@ -20,8 +20,11 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
     ///         - LEGO Worlds
     ///
     /// </remarks>
+    /// 
     public class DATArchive
     {
+        const uint FOUR_CC_DOT_BYTES = 776160052; //4CC.
+        const uint DOT_CC_FOUR_BYTES = 876823342; //.CC4
         public const string MagicCC40TAD = ".CC40TAD";
 
         public List<DATFile> Files = [];
@@ -64,11 +67,10 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
 
             stream.Seek(infoTableOffset, SeekOrigin.Begin);
 
-            // TODO: Improve this check.
-            if (versionType1.ToConvertedString() == "4CC." || 
-                versionType1.ToConvertedString() == ".CC4" || 
-                versionType2.ToConvertedString() == "4CC." || 
-                versionType2.ToConvertedString() == ".CC4")
+            if (versionType1 == FOUR_CC_DOT_BYTES || 
+                versionType1 == DOT_CC_FOUR_BYTES || 
+                versionType2 == FOUR_CC_DOT_BYTES || 
+                versionType2 == DOT_CC_FOUR_BYTES)
             {
                 // Read DAT info table.
 
