@@ -241,7 +241,7 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
                     // TODO: We should be at EOF.
                     if (stream.Position != stream.Length)
                     {
-                        throw new Exception($"Expected EOF: POS:{stream.Position:x8}, LEN: {stream.Length}");
+                        throw new Exception($"Expected EOF: POS:{stream.Position:x8}, LEN: {stream.Length:x8}");
                     }
                 }
 
