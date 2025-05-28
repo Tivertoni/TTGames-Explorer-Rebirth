@@ -25,14 +25,14 @@ namespace TTGamesExplorerRebirthUI.Forms
         private readonly List<byte[]> _ddsFilesRaw = [];
 
         private readonly string _filePath;
-        private readonly bool   _isDDS;
+        private readonly bool _isDDS;
 
         private System.Drawing.Image _previewImage;
 
         private bool _transparentBackground = true;
-        private int  _previewWidth;
-        private int  _previewHeight;
-        private int  _zoomVal = 100;
+        private int _previewWidth;
+        private int _previewHeight;
+        private int _zoomVal = 100;
 
         [GeneratedRegex(@"\d+")]
         private static partial Regex Regex_FirstDigit();
@@ -66,20 +66,22 @@ namespace TTGamesExplorerRebirthUI.Forms
                 LoadImages();
 
                 darkButton2.Visible = true;
-            }else if (type == ImageFormType.TGA)
+            }
+            else if (type == ImageFormType.TGA)
             {
                 TGA tga = new TGA();
 
                 Bitmap map = tga.GetBitmap(filePath);
 
                 LoadStandaloneImage(map, filePath);
-            }else if(type == ImageFormType.PNG)
+            }
+            else if (type == ImageFormType.PNG)
             {
                 using (MemoryStream ms = new MemoryStream(fileBuffer))
                 {
                     Bitmap bitmap = new Bitmap(ms);
                     LoadStandaloneImage(bitmap, filePath);
-                }          
+                }
             }
         }
 
@@ -304,7 +306,7 @@ namespace TTGamesExplorerRebirthUI.Forms
             if (_transparentBackground)
             {
                 pictureBox1.BackColor = System.Drawing.Color.Transparent;
-                
+
                 return;
             }
 
