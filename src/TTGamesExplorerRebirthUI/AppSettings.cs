@@ -10,6 +10,8 @@ namespace TTGamesExplorerRebirthUI
         public string GameFolderPath { get; set; }
         public bool KeepLogsOpen {  get; set; }
 
+        public bool UseDecimalFormat { get; set; }
+
         private static AppSettings _instance;
 
         public static AppSettings Instance

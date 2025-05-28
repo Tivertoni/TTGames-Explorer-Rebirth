@@ -43,8 +43,12 @@
             runWithHooksToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
             exitRunningGameToolStripMenuItem = new ToolStripMenuItem();
+            hideHookLogsToolStripMenuItem = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
             keepHookLogsOpenToolStripMenuItem = new ToolStripMenuItem();
+            uToolStripMenuItem = new ToolStripMenuItem();
+            binaryToolStripMenuItem = new ToolStripMenuItem();
+            decimalToolStripMenuItem = new ToolStripMenuItem();
             splitContainer1 = new SplitContainer();
             splitContainer2 = new SplitContainer();
             darkSectionPanel1 = new DarkUI.Controls.DarkSectionPanel();
@@ -59,7 +63,6 @@
             textBox1 = new TextBox();
             folderBrowserDialog1 = new FolderBrowserDialog();
             openFileDialog1 = new OpenFileDialog();
-            hideHookLogsToolStripMenuItem = new ToolStripMenuItem();
             darkStatusStrip1.SuspendLayout();
             darkMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -221,10 +224,20 @@
             exitRunningGameToolStripMenuItem.Text = "Exit running game...";
             exitRunningGameToolStripMenuItem.Click += ExitRunningGameToolStripMenuItem_Click;
             // 
+            // hideHookLogsToolStripMenuItem
+            // 
+            hideHookLogsToolStripMenuItem.BackColor = Color.FromArgb(60, 63, 65);
+            hideHookLogsToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
+            hideHookLogsToolStripMenuItem.Image = Properties.Resources.application_osx_terminal;
+            hideHookLogsToolStripMenuItem.Name = "hideHookLogsToolStripMenuItem";
+            hideHookLogsToolStripMenuItem.Size = new Size(180, 22);
+            hideHookLogsToolStripMenuItem.Text = "Hide Hook Logs";
+            hideHookLogsToolStripMenuItem.Click += hideHookLogsToolStripMenuItem_Click;
+            // 
             // optionsToolStripMenuItem
             // 
             optionsToolStripMenuItem.BackColor = Color.FromArgb(60, 63, 65);
-            optionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { keepHookLogsOpenToolStripMenuItem });
+            optionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { keepHookLogsOpenToolStripMenuItem, uToolStripMenuItem });
             optionsToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
             optionsToolStripMenuItem.Image = Properties.Resources.cog;
             optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
@@ -240,6 +253,37 @@
             keepHookLogsOpenToolStripMenuItem.Size = new Size(200, 22);
             keepHookLogsOpenToolStripMenuItem.Text = "Keep \"Hook Logs\" open";
             keepHookLogsOpenToolStripMenuItem.CheckedChanged += toolStripMenuItem1_CheckedChanged;
+            // 
+            // uToolStripMenuItem
+            // 
+            uToolStripMenuItem.BackColor = Color.FromArgb(60, 63, 65);
+            uToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { binaryToolStripMenuItem, decimalToolStripMenuItem });
+            uToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
+            uToolStripMenuItem.Name = "uToolStripMenuItem";
+            uToolStripMenuItem.Size = new Size(200, 22);
+            uToolStripMenuItem.Text = "Units";
+            // 
+            // binaryToolStripMenuItem
+            // 
+            binaryToolStripMenuItem.BackColor = Color.FromArgb(60, 63, 65);
+            binaryToolStripMenuItem.CheckOnClick = true;
+            binaryToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
+            binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
+            binaryToolStripMenuItem.Size = new Size(180, 22);
+            binaryToolStripMenuItem.Text = "Use Binary";
+            binaryToolStripMenuItem.Click += binaryToolStripMenuItem_Click;
+            // 
+            // decimalToolStripMenuItem
+            // 
+            decimalToolStripMenuItem.BackColor = Color.FromArgb(60, 63, 65);
+            decimalToolStripMenuItem.Checked = true;
+            decimalToolStripMenuItem.CheckOnClick = true;
+            decimalToolStripMenuItem.CheckState = CheckState.Checked;
+            decimalToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
+            decimalToolStripMenuItem.Name = "decimalToolStripMenuItem";
+            decimalToolStripMenuItem.Size = new Size(180, 22);
+            decimalToolStripMenuItem.Text = "Use Decimal";
+            decimalToolStripMenuItem.Click += decimalToolStripMenuItem_Click;
             // 
             // splitContainer1
             // 
@@ -359,7 +403,7 @@
             darkContextMenu1.ForeColor = Color.FromArgb(220, 220, 220);
             darkContextMenu1.Items.AddRange(new ToolStripItem[] { extractToolStripMenuItem });
             darkContextMenu1.Name = "darkContextMenu1";
-            darkContextMenu1.Size = new Size(110, 26);
+            darkContextMenu1.Size = new Size(111, 26);
             darkContextMenu1.Opening += DarkContextMenu1_Opening;
             // 
             // extractToolStripMenuItem
@@ -367,7 +411,7 @@
             extractToolStripMenuItem.BackColor = Color.FromArgb(60, 63, 65);
             extractToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
             extractToolStripMenuItem.Name = "extractToolStripMenuItem";
-            extractToolStripMenuItem.Size = new Size(109, 22);
+            extractToolStripMenuItem.Size = new Size(110, 22);
             extractToolStripMenuItem.Text = "Extract";
             // 
             // darkSectionPanel3
@@ -395,16 +439,6 @@
             // openFileDialog1
             // 
             openFileDialog1.Filter = "All files|*.*";
-            // 
-            // hideHookLogsToolStripMenuItem
-            // 
-            hideHookLogsToolStripMenuItem.BackColor = Color.FromArgb(60, 63, 65);
-            hideHookLogsToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
-            hideHookLogsToolStripMenuItem.Image = Properties.Resources.application_osx_terminal;
-            hideHookLogsToolStripMenuItem.Name = "hideHookLogsToolStripMenuItem";
-            hideHookLogsToolStripMenuItem.Size = new Size(180, 22);
-            hideHookLogsToolStripMenuItem.Text = "Hide Hook Logs";
-            hideHookLogsToolStripMenuItem.Click += hideHookLogsToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -481,5 +515,8 @@
         private ToolStripMenuItem optionsToolStripMenuItem;
         private ToolStripMenuItem keepHookLogsOpenToolStripMenuItem;
         private ToolStripMenuItem hideHookLogsToolStripMenuItem;
+        private ToolStripMenuItem uToolStripMenuItem;
+        private ToolStripMenuItem binaryToolStripMenuItem;
+        private ToolStripMenuItem decimalToolStripMenuItem;
     }
 }

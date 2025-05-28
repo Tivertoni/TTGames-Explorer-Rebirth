@@ -15,17 +15,40 @@ namespace TTGamesExplorerRebirthUI
 
         public static string FormatSize(ulong bytesSize)
         {
-            string[] sizeSuffixes = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
-            int      counter      = 0;
-            decimal  number       = bytesSize;
+            decimal divider;
+            string[] sizeSuffixes;
 
-            while (Math.Round(number / 1024) >= 1)
+            int counter = 0;
+            decimal number = bytesSize;
+            decimal res;
+
+            if (!AppSettings.Instance.UseDecimalFormat)
             {
-                number /= 1024;
-                counter++;
+                sizeSuffixes = [ "Bytes", "KiB", "MiB", "GiB", "TiB", "PiB" ];
+                divider = 1024m;
+            }
+            else
+            {
+                sizeSuffixes = [ "Bytes", "KB", "MB", "GB", "TB", "PB" ];
+                divider = 1000m;
             }
 
-            return string.Format("{0:n1}{1}", number, sizeSuffixes[counter]);
+            while (true)
+            {
+                res = number / divider;
+
+                if (res < 1m)
+                {
+                    break;
+                }
+
+                number = res;
+                counter++;
+
+                if (counter >= sizeSuffixes.Length - 1) break;
+            }
+
+            return string.Format("{0:n1} {1}", number, sizeSuffixes[counter]);
         }
 
         static readonly private Bitmap _bitmapPageWhiteMusic = new Bitmap(Properties.Resources.page_white_music);

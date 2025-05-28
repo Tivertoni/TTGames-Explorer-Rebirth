@@ -129,8 +129,7 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
 
                         if (fileId != 0)
                         {
-                            namesList[myId] = fileName;
-                            myId++;
+                            namesList[myId++] = fileName;
                         }
                         else
                         {
@@ -242,7 +241,7 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
                     // TODO: We should be at EOF.
                     if (stream.Position != stream.Length)
                     {
-                        throw new IndexOutOfRangeException($"{stream.Position:x8}");
+                        throw new Exception($"Expected EOF: POS:{stream.Position:x8}, LEN: {stream.Length}");
                     }
                 }
 
@@ -255,15 +254,17 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
                 for (int i = 0; i < filesCount1; i++)
                 {
                     short  next = 1;
+                    short prev = -1;
+                    int offset = 0;
                     string name = string.Empty;
 
                     do
                     {
                         stream.Seek(nameInfoOffset, SeekOrigin.Begin);
 
-                              next   = reader.ReadInt16();
-                        short prev   = reader.ReadInt16();
-                        int   offset = reader.ReadInt32();
+                        next   = reader.ReadInt16();
+                        prev   = reader.ReadInt16();
+                        offset = reader.ReadInt32();
 
                         if (formatByteOrder1 <= -5) // if (nameFieldSize >= 12)
                         {
@@ -286,7 +287,7 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
                         {
                             if (name[0] >= 0xf0)
                             {
-                                name = "";
+                                name = string.Empty;
                             }
                         }
 
@@ -301,7 +302,7 @@ namespace TTGamesExplorerRebirthLib.Formats.DAT
                         {
                             string tempName = tempArray[prev];
 
-                            if (tempName != "") // NOTE: Long story to avoid things like 2foldername that gives problems.
+                            if (tempName != string.Empty) // NOTE: Long story to avoid things like 2foldername that gives problems.
                             {
                                 string oldName = @"\"; // Do not use "/"
                                 oldName += tempName;

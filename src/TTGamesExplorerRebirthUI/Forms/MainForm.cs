@@ -12,7 +12,7 @@ namespace TTGamesExplorerRebirthUI.Forms
         private readonly string _hookDllPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "bin", "TTGamesExplorerRebirthHook.dll");
 
         private string _gameExePath;
-        private string _loadedGameFolderPath = "";
+        private string _loadedGameFolderPath = string.Empty;
         private GamesMetadata _gameMetadata;
         private ProcessManager _processManager;
 
@@ -49,6 +49,8 @@ namespace TTGamesExplorerRebirthUI.Forms
         {
             AppSettings.Load();
 
+            binaryToolStripMenuItem.Checked = !AppSettings.Instance.UseDecimalFormat;
+            decimalToolStripMenuItem.Checked = AppSettings.Instance.UseDecimalFormat;
             if (AppSettings.Instance.GameFolderPath != null)
             {
                 LoadGameFolder(AppSettings.Instance.GameFolderPath);
@@ -469,6 +471,29 @@ namespace TTGamesExplorerRebirthUI.Forms
         {
             splitContainer3.Panel2Collapsed = true;
             splitContainer3.Panel2.Hide();
+        }
+
+        private void binaryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            decimalToolStripMenuItem.Checked = !binaryToolStripMenuItem.Checked;
+
+            if(AppSettings.Instance.UseDecimalFormat != decimalToolStripMenuItem.Checked)
+            {
+                AppSettings.Instance.UseDecimalFormat = decimalToolStripMenuItem.Checked;
+                AppSettings.Save();
+            }
+
+        }
+
+        private void decimalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            binaryToolStripMenuItem.Checked = !decimalToolStripMenuItem.Checked;
+
+            if (AppSettings.Instance.UseDecimalFormat != decimalToolStripMenuItem.Checked)
+            {
+                AppSettings.Instance.UseDecimalFormat = decimalToolStripMenuItem.Checked;
+                AppSettings.Save();
+            }
         }
     }
 }
