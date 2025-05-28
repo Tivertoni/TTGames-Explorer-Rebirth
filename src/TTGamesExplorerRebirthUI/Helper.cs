@@ -107,6 +107,7 @@ namespace TTGamesExplorerRebirthUI
                 ".wav" => _bitmapPageWhiteMusic,
                 ".xml" => _bitmapPageCode,
                 ".lxfml" => _bitmapPageCode,
+                ".srt" => _bitmapPageCode,
                 ".pkdwin" => _bitmapBrick,
                 ".pkiwin" => _bitmapBrick,
                 ".pkdswitch" => _bitmapBrick,
@@ -149,6 +150,7 @@ namespace TTGamesExplorerRebirthUI
                 case ".sub":
                 case ".subopt":
                 case ".txt":
+                case ".srt":
                 case ".lxfml":
                 case ".xml":
                     {
