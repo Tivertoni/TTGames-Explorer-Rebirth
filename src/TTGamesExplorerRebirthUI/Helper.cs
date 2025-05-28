@@ -51,6 +51,7 @@ namespace TTGamesExplorerRebirthUI
             return string.Format("{0:n1} {1}", number, sizeSuffixes[counter]);
         }
 
+        static readonly private Bitmap _bitmapImage = new Bitmap(Properties.Resources.picture);
         static readonly private Bitmap _bitmapPageWhiteMusic = new Bitmap(Properties.Resources.page_white_music);
         static readonly private Bitmap _bitmapPageWhiteText = new Bitmap(Properties.Resources.page_white_text);
         static readonly private Bitmap _bitmapPicture = new Bitmap(Properties.Resources.picture);
@@ -70,6 +71,8 @@ namespace TTGamesExplorerRebirthUI
         {
             return Path.GetExtension(path).ToLowerInvariant() switch
             {
+                ".png" => _bitmapImage,
+                ".tga" => _bitmapImage,
                 ".adp" => _bitmapPageWhiteMusic,
                 ".ats" => _bitmapPageWhiteText,
                 ".blob" => _bitmapBorderAll,
@@ -152,82 +155,93 @@ namespace TTGamesExplorerRebirthUI
                         new TextForm(Path.GetFileName(path), fileBuffer, archiveFile).ShowDialog();
                         break;
                     }
+                case ".tga":
+                    {
+                        new ImageForm(path, null, ImageFormType.TGA).ShowDialog();
+                        break;
+                    }
+                case ".png":
+                    {
+                        fileBuffer ??= File.ReadAllBytes(path);
 
+                        new ImageForm(path, fileBuffer, ImageFormType.PNG).ShowDialog();
+                        break;
+                    }
                 case ".cmo":
-                case ".dds":
-                case ".tex":
-                    {
-                        fileBuffer ??= File.ReadAllBytes(path);
+                    case ".dds":
+                    case ".tex":
+                        {
+                            fileBuffer ??= File.ReadAllBytes(path);
 
-                        new ImageForm(path, fileBuffer, ImageFormType.DDS).ShowDialog();
-                        break;
+                            new ImageForm(path, fileBuffer, ImageFormType.DDS).ShowDialog();
+                            break;
+                        }
+
+                    case ".nxg_textures":
+                        {
+                            fileBuffer ??= File.ReadAllBytes(path);
+
+                            new ImageForm(path, fileBuffer, ImageFormType.NXGTextures).ShowDialog();
+                            break;
+                        }
+
+                    case ".ft2":
+                        {
+                            fileBuffer ??= File.ReadAllBytes(path);
+
+                            new FontForm(path, fileBuffer).ShowDialog();
+                            break;
+                        }
+
+                    case ".tsh":
+                        {
+                            fileBuffer ??= File.ReadAllBytes(path);
+
+                            new TSHForm(path, fileBuffer).ShowDialog();
+                            break;
+                        }
+
+                    case ".adp":
+                    case ".cbx":
+                    case ".mp3":
+                    case ".ogg":
+                    case ".wav":
+                        {
+                            fileBuffer ??= File.ReadAllBytes(path);
+
+                            new SoundForm(path, fileBuffer).ShowDialog();
+                            break;
+                        }
+
+                    case ".blob":
+                    case ".pc_shaders":
+                        {
+                            fileBuffer ??= File.ReadAllBytes(path);
+
+                            new PCShadersForm(path, fileBuffer).ShowDialog();
+                            break;
+                        }
+
+                    case ".ghg":
+                    case ".gsc":
+                        {
+                            fileBuffer ??= File.ReadAllBytes(path);
+
+                            new ModelForm(path, fileBuffer).ShowDialog();
+                            break;
+                        }
+
+                    case ".pkdwin":
+                    case ".pkiwin":
+                    case ".pkdswitch":
+                    case ".pkiswitch":
+                    case ".pkdps4":
+                    case ".pkips4":
+                        {
+                            new PkForm(path).ShowDialog();
+                            break;
+                        }
                     }
-
-                case ".nxg_textures":
-                    {
-                        fileBuffer ??= File.ReadAllBytes(path);
-
-                        new ImageForm(path, fileBuffer, ImageFormType.NXGTextures).ShowDialog();
-                        break;
-                    }
-
-                case ".ft2":
-                    {
-                        fileBuffer ??= File.ReadAllBytes(path);
-
-                        new FontForm(path, fileBuffer).ShowDialog();
-                        break;
-                    }
-
-                case ".tsh":
-                    {
-                        fileBuffer ??= File.ReadAllBytes(path);
-
-                        new TSHForm(path, fileBuffer).ShowDialog();
-                        break;
-                    }
-
-                case ".adp":
-                case ".cbx":
-                case ".mp3":
-                case ".ogg":
-                case ".wav":
-                    {
-                        fileBuffer ??= File.ReadAllBytes(path);
-
-                        new SoundForm(path, fileBuffer).ShowDialog();
-                        break;
-                    }
-
-                case ".blob":
-                case ".pc_shaders":
-                    {
-                        fileBuffer ??= File.ReadAllBytes(path);
-
-                        new PCShadersForm(path, fileBuffer).ShowDialog();
-                        break;
-                    }
-
-                case ".ghg":
-                case ".gsc":
-                    {
-                        fileBuffer ??= File.ReadAllBytes(path);
-
-                        new ModelForm(path, fileBuffer).ShowDialog();
-                        break;
-                    }
-
-                case ".pkdwin":
-                case ".pkiwin":
-                case ".pkdswitch":
-                case ".pkiswitch":
-                case ".pkdps4":
-                case ".pkips4":
-                    {
-                        new PkForm(path).ShowDialog();
-                        break;
-                    }
-            }
         }
     }
 }

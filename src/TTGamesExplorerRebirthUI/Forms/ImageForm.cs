@@ -3,9 +3,11 @@ using DarkUI.Forms;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Text.RegularExpressions;
 using TTGamesExplorerRebirthLib.Formats;
 using TTGamesExplorerRebirthLib.Formats.DDS;
+using Image = System.Drawing.Image;
 
 namespace TTGamesExplorerRebirthUI.Forms
 {
@@ -13,6 +15,8 @@ namespace TTGamesExplorerRebirthUI.Forms
     {
         DDS,
         NXGTextures,
+        TGA,
+        PNG,
     }
 
     public partial class ImageForm : DarkForm
@@ -62,6 +66,20 @@ namespace TTGamesExplorerRebirthUI.Forms
                 LoadImages();
 
                 darkButton2.Visible = true;
+            }else if (type == ImageFormType.TGA)
+            {
+                TGA tga = new TGA();
+
+                Bitmap map = tga.GetBitmap(filePath);
+
+                LoadStandaloneImage(map, filePath);
+            }else if(type == ImageFormType.PNG)
+            {
+                using (MemoryStream ms = new MemoryStream(fileBuffer))
+                {
+                    Bitmap bitmap = new Bitmap(ms);
+                    LoadStandaloneImage(bitmap, filePath);
+                }          
             }
         }
 
@@ -69,7 +87,22 @@ namespace TTGamesExplorerRebirthUI.Forms
         {
             Helper.EnableDarkModeTitle(Handle);
         }
+        private void LoadStandaloneImage(Bitmap map, string path)
+        {
+            string name = Path.GetFileName(path);
 
+            DarkListItem item = new($"Image #0")
+            {
+                Icon = Properties.Resources.picture
+            };
+
+            darkListView1.Items.Add(item);
+
+            _previewImage = map;
+            _previewHeight = map.Height;
+            _previewWidth = map.Width;
+            pictureBox1.Image = map;
+        }
         private void LoadImages()
         {
             if (_isDDS)
@@ -204,14 +237,25 @@ namespace TTGamesExplorerRebirthUI.Forms
             _zoomVal = trackBar1.Value;
 
             darkLabel1.Text = $"{_zoomVal}%";
-            pictureBox1.Image = PictureBoxZoom(_previewImage, new System.Drawing.Size(_previewHeight * _zoomVal / 100, _previewWidth * _zoomVal / 100));
+
+            int newWidth = (int)(_previewWidth * _zoomVal / 100.0);
+            int newHeight = (int)(_previewHeight * _zoomVal / 100.0);
+
+            pictureBox1.Image = PictureBoxZoom(_previewImage, new System.Drawing.Size(newWidth, newHeight));
         }
 
-        public static System.Drawing.Image PictureBoxZoom(System.Drawing.Image img, System.Drawing.Size size)
+        public System.Drawing.Image PictureBoxZoom(System.Drawing.Image img, System.Drawing.Size size)
         {
-            Bitmap bitmap = new(img, size.Width <= 0 ? 1 : size.Width, size.Height <= 0 ? 1 : size.Height);
+            int width = size.Width <= 0 ? 1 : size.Width;
+            int height = size.Height <= 0 ? 1 : size.Height;
 
-            Graphics.FromImage(bitmap).InterpolationMode = InterpolationMode.HighQualityBilinear;
+            Bitmap bitmap = new Bitmap(width, height);
+
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(img, 0, 0, width, height);
+            }
 
             return bitmap;
         }
@@ -222,13 +266,14 @@ namespace TTGamesExplorerRebirthUI.Forms
             saveFileDialog1.DefaultExt = "png";
             saveFileDialog1.Title = "Save as PNG...";
 
-            uint indexImage = GetIndexFromName(darkListView1.Items[darkListView1.SelectedIndices[0]].Text);
+            int i = darkListView1.SelectedIndices.Count > 0 ? darkListView1.SelectedIndices[0] : 0;
+            uint indexImage = GetIndexFromName(darkListView1.Items[i].Text);
 
             saveFileDialog1.FileName = _ddsNames.Count != 0 ? $"{Path.GetFileName(_ddsNames[(int)indexImage])}.png" : $"{Path.GetFileNameWithoutExtension(_filePath)}.png";
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                pictureBox1.Image.Save(saveFileDialog1.FileName);
+                _previewImage.Save(saveFileDialog1.FileName);
 
                 MessageBox.Show("File saved!", "Save as PNG...", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
