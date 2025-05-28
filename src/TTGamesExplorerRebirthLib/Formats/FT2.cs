@@ -111,7 +111,10 @@ namespace TTGamesExplorerRebirthLib.Formats
 
             for (int i = 0; i < unicodeTableItemCount; i++)
             {
-                Chars[i] ??= new();
+                if (Chars[i] == null)
+                {
+                    Chars[i] = new();
+                }
 
                 Chars[i].UnicodeChar      = Convert.ToChar(reader.ReadUInt16BigEndian());
                 Chars[i].FontMappingIndex = reader.ReadUInt16();
