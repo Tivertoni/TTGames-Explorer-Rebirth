@@ -7,6 +7,8 @@ namespace TTGamesExplorerRebirthUI.Forms
 {
     public partial class MainForm : DarkForm
     {
+
+        private string _currentPath = string.Empty;
         private readonly string _loaderExePath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "bin", "TTGamesExplorerRebirthLoader.exe");
         private readonly string _bootstrapDllPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "bin", "TTGamesExplorerRebirthBootstrap.dll");
         private readonly string _hookDllPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "bin", "TTGamesExplorerRebirthHook.dll");
@@ -57,11 +59,7 @@ namespace TTGamesExplorerRebirthUI.Forms
             }
 
             keepHookLogsOpenToolStripMenuItem.Checked = AppSettings.Instance.KeepLogsOpen;
-        }
-
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
+            darkTreeView1.ContextMenuStrip = OptionStrip;
         }
 
         private void LoadGameFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -107,6 +105,7 @@ namespace TTGamesExplorerRebirthUI.Forms
 
         private void LoadFolderInTreeView(string folderPath)
         {
+            _currentPath = folderPath;
             Invoke(new Action(darkTreeView1.Nodes.Clear));
 
             Invoke((MethodInvoker)(() => splitContainer2.Panel2Collapsed = true));
@@ -477,7 +476,7 @@ namespace TTGamesExplorerRebirthUI.Forms
         {
             decimalToolStripMenuItem.Checked = !binaryToolStripMenuItem.Checked;
 
-            if(AppSettings.Instance.UseDecimalFormat != decimalToolStripMenuItem.Checked)
+            if (AppSettings.Instance.UseDecimalFormat != decimalToolStripMenuItem.Checked)
             {
                 AppSettings.Instance.UseDecimalFormat = decimalToolStripMenuItem.Checked;
                 AppSettings.Save();
@@ -494,6 +493,11 @@ namespace TTGamesExplorerRebirthUI.Forms
                 AppSettings.Instance.UseDecimalFormat = decimalToolStripMenuItem.Checked;
                 AppSettings.Save();
             }
+        }
+
+        private void revealInFileExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", _currentPath);
         }
     }
 }

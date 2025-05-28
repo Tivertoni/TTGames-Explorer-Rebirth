@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             darkStatusStrip1 = new DarkUI.Controls.DarkStatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
@@ -63,6 +64,8 @@
             textBox1 = new TextBox();
             folderBrowserDialog1 = new FolderBrowserDialog();
             openFileDialog1 = new OpenFileDialog();
+            OptionStrip = new ContextMenuStrip(components);
+            revealInFileExplorerToolStripMenuItem = new ToolStripMenuItem();
             darkStatusStrip1.SuspendLayout();
             darkMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -82,6 +85,7 @@
             darkSectionPanel2.SuspendLayout();
             darkContextMenu1.SuspendLayout();
             darkSectionPanel3.SuspendLayout();
+            OptionStrip.SuspendLayout();
             SuspendLayout();
             // 
             // darkStatusStrip1
@@ -269,7 +273,7 @@
             binaryToolStripMenuItem.CheckOnClick = true;
             binaryToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
             binaryToolStripMenuItem.Name = "binaryToolStripMenuItem";
-            binaryToolStripMenuItem.Size = new Size(180, 22);
+            binaryToolStripMenuItem.Size = new Size(139, 22);
             binaryToolStripMenuItem.Text = "Use Binary";
             binaryToolStripMenuItem.Click += binaryToolStripMenuItem_Click;
             // 
@@ -281,7 +285,7 @@
             decimalToolStripMenuItem.CheckState = CheckState.Checked;
             decimalToolStripMenuItem.ForeColor = Color.FromArgb(220, 220, 220);
             decimalToolStripMenuItem.Name = "decimalToolStripMenuItem";
-            decimalToolStripMenuItem.Size = new Size(180, 22);
+            decimalToolStripMenuItem.Size = new Size(139, 22);
             decimalToolStripMenuItem.Text = "Use Decimal";
             decimalToolStripMenuItem.Click += decimalToolStripMenuItem_Click;
             // 
@@ -440,6 +444,19 @@
             // 
             openFileDialog1.Filter = "All files|*.*";
             // 
+            // OptionStrip
+            // 
+            OptionStrip.Items.AddRange(new ToolStripItem[] { revealInFileExplorerToolStripMenuItem });
+            OptionStrip.Name = "contextMenuStrip1";
+            OptionStrip.Size = new Size(191, 48);
+            // 
+            // revealInFileExplorerToolStripMenuItem
+            // 
+            revealInFileExplorerToolStripMenuItem.Name = "revealInFileExplorerToolStripMenuItem";
+            revealInFileExplorerToolStripMenuItem.Size = new Size(190, 22);
+            revealInFileExplorerToolStripMenuItem.Text = "Show Root In Explorer";
+            revealInFileExplorerToolStripMenuItem.Click += revealInFileExplorerToolStripMenuItem_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -477,6 +494,7 @@
             darkContextMenu1.ResumeLayout(false);
             darkSectionPanel3.ResumeLayout(false);
             darkSectionPanel3.PerformLayout();
+            OptionStrip.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -518,5 +536,7 @@
         private ToolStripMenuItem uToolStripMenuItem;
         private ToolStripMenuItem binaryToolStripMenuItem;
         private ToolStripMenuItem decimalToolStripMenuItem;
+        private ContextMenuStrip OptionStrip;
+        private ToolStripMenuItem revealInFileExplorerToolStripMenuItem;
     }
 }
