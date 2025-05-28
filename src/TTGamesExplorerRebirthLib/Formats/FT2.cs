@@ -49,8 +49,9 @@ namespace TTGamesExplorerRebirthLib.Formats
             using MemoryStream stream = new(buffer);
             using BinaryReader reader = new(stream);
 
-            // Read header.
 
+            // Read header.
+            
             uint headerSize = reader.ReadUInt32BigEndian();
             uint fileVersion = reader.ReadUInt32BigEndian(); // Always 1 ?
 
@@ -73,7 +74,6 @@ namespace TTGamesExplorerRebirthLib.Formats
             IcGap      = reader.ReadUInt32BigEndian();
 
             // Read chars mapping section.
-
             if (headerVersion > 2 && reader.ReadUInt32AsString() != MagicVtor)
             {
                 throw new InvalidDataException($"{stream.Position:x8}");
@@ -129,7 +129,19 @@ namespace TTGamesExplorerRebirthLib.Formats
 
             uint imageSectionSize = reader.ReadUInt32(); // Always 0.
 
-            FontImage = new DDSImage(reader.ReadBytes((int)(stream.Length - headerSize)));
+
+            reader.BaseStream.Position = 2;
+
+            byte high = reader.ReadByte();
+            byte low = reader.ReadByte();
+
+            int pos = (high << 8) | low;
+
+            reader.BaseStream.Position = pos + 4;
+
+            long c = reader.BaseStream.Position;
+
+            FontImage = new DDSImage(reader.ReadBytes((int)(stream.Length - c)));         
         }
     }
 }
