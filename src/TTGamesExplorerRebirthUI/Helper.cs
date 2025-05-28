@@ -106,6 +106,7 @@ namespace TTGamesExplorerRebirthUI
                 ".pak" => _bitmapBrick,
                 ".wav" => _bitmapPageWhiteMusic,
                 ".xml" => _bitmapPageCode,
+                ".lxfml" => _bitmapPageCode,
                 ".pkdwin" => _bitmapBrick,
                 ".pkiwin" => _bitmapBrick,
                 ".pkdswitch" => _bitmapBrick,
@@ -148,6 +149,7 @@ namespace TTGamesExplorerRebirthUI
                 case ".sub":
                 case ".subopt":
                 case ".txt":
+                case ".lxfml":
                 case ".xml":
                     {
                         fileBuffer ??= File.ReadAllBytes(path);
